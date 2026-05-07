@@ -16,3 +16,14 @@
     --main-cream: #D5B599;
     --dark-brown: #5C4D3F;
 }
+
+
+@keyframes spinCookie {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
