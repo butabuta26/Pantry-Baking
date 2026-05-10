@@ -2,64 +2,72 @@
   {
     "id": 1,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time":"< 30 min",
+    "time_value": "<-30min",
+    "difficulty":"Easy",
     "featured": true
   },
 
   {
     "id": 2,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time": "30–60 min",
+    "time_value": "30-60min",
+    "difficulty":"Medium",
     "featured": true
   },
 
   {
     "id": 3,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time": "30–60 min",
+    "time_value": "30-60min",
+    "difficulty":"Easy",
     "featured": true
   },
 
   {
     "id": 4,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time":"1–2 hours",
+    "time_value": "1-2hours",
+    "difficulty":"Advanced",
     "featured": true
   },
 
   {
     "id": 5,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time": "< 30 min",
+    "time_value": "<-30min",
+    "difficulty":"Medium",
     "featured": true
   },
 
   {
     "id": 6,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time":"2+ hours",
+    "time_value": "2+hours",
+    "difficulty":"Advanced",
     "featured": true
   },
 
   {
     "id": 7,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time": "30–60 min",
+    "time_value": "30-60min",
+    "difficulty":"Medium",
     "featured": true
   },
 
   {
     "id": 8,
     "name":"[Recipe Name]",
-    "time":"[Time]",
-    "difficulty":"[Difficulty]",
+    "time":"< 30 min",
+    "time_value": "<-30min",
+    "difficulty":"Easy",
     "featured": true
   },
 

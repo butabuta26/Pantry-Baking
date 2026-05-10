@@ -51,35 +51,40 @@ export function createRecipeCard(recipe) {
   `;
 }
   
-// cards featured
-const HomeContainer = document.querySelector('#home-container');
-if (HomeContainer) {
-    fetch(getPath('datas/data.json'))
-    .then(response => response.json())
-    .then(recipes => {
-        const featuredRecipes = recipes.filter(recipe => recipe.featured);
+function displayFeaturedRecipeCards(recipes){
+    const homeContainer = document.querySelector('#home-container');
+    if(homeContainer){
+        homeContainer.innerHTML = '';
+        const featuredRecipes = recipes.filter(
+            recipe => recipe.featured
+        );
         featuredRecipes.forEach(recipe => {
-          const card = document.createElement('div');
-          card.className = 'col-md-6 col-lg-3';
-          card.innerHTML = createRecipeCard(recipe);
-          HomeContainer.appendChild(card);
-      });
-      })
-      .catch(error => console.log(error));
-};
-
-// all recipes cards
-const allRecipesContainer = document.querySelector('#recipe-container');
-if (allRecipesContainer) {
-    fetch(getPath('datas/data.json'))
-      .then(response => response.json())
-      .then(recipes => {
-        recipes.forEach(recipe => {
-          const card = document.createElement('div');     
-          card.className = 'col-md-6 col-lg-3';      
-          card.innerHTML = createRecipeCard(recipe);      
-          allRecipesContainer.appendChild(card);
+            const card = document.createElement('div');
+            card.className = 'col-md-6 col-lg-3';
+            card.innerHTML = createRecipeCard(recipe);
+            homeContainer.appendChild(card);
         });
-      })
-      .catch(error => console.log(error));
-  }
+    }
+}
+
+export function displayAllRecipeCards(recipes){
+    const allRecipesContainer = document.querySelector('#recipe-container');
+    if (allRecipesContainer) {
+        allRecipesContainer.innerHTML = '';
+        recipes.forEach(recipe => {
+            const card = document.createElement('div');
+            card.className = 'col-md-6 col-lg-3';
+            card.innerHTML = createRecipeCard(recipe);
+            allRecipesContainer.appendChild(card);
+        });
+    }
+}
+
+fetch(getPath('datas/data.json'))
+.then(response => response.json())
+.then(recipes => {
+    displayFeaturedRecipeCards(recipes);
+    displayAllRecipeCards(recipes);
+    
+})
+.catch(error => console.log(error));

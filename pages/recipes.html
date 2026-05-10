@@ -23,18 +23,19 @@
             <h4>Cooking Time</h4>
         
             <div class="d-flex flex-wrap gap-3 mb-4 mt-2">
-                <button class="btn filter-chip">< 30 min</button>
-                <button class="btn filter-chip">30–60 min</button>
-                <button class="btn filter-chip">1–2 hours</button>
-                <button class="btn filter-chip">2+ hours</button>
+                <button class="btn filter-chip filter-time-chip" data-value="<-30min">< 30 min</button>
+                <button class="btn filter-chip filter-time-chip" data-value="30-60min">30–60 min</button>
+                <button class="btn filter-chip filter-time-chip" data-value="1-2hours">1–2 hours</button>
+                <button class="btn filter-chip filter-time-chip" data-value="2+hours">2+ hours</button>
             </div>
         
             <h4>Difficulty</h4>
         
             <div class="d-flex flex-wrap gap-3 mt-2">
-                <button class="btn filter-chip">Easy</button>
-                <button class="btn filter-chip">Medium</button>
-                <button class="btn filter-chip">Advanced</button>
+                <!-- <button class="btn filter-chip filter-diff-chip" data-value="any">Any</button> -->
+                <button class="btn filter-chip filter-diff-chip" data-value="easy">Easy</button>
+                <button class="btn filter-chip filter-diff-chip" data-value="medium">Medium</button>
+                <button class="btn filter-chip filter-diff-chip" data-value="advanced">Advanced</button>
             </div>
             <hr>
         </div>
@@ -52,6 +53,7 @@
 
 
     <script type="module" src="../scripts/script.js"></script>
+    <script type="module" src="../scripts/filter.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
