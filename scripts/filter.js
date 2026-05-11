@@ -4,6 +4,7 @@ const linkElementsDifficulty = document.querySelectorAll('.filter-diff-chip');
 const linkElementsTime = document.querySelectorAll('.filter-time-chip');
 
 const searchInput = document.querySelector('[data-search]');
+const searchInputButton = document.querySelector('[data-search-button]')
 
 let selectedDifficulty = 'any';
 let selectedTime = 'any';
@@ -20,7 +21,7 @@ fetch(getPath('datas/data.json'))
             const matchTime =
                 selectedTime === 'any' ||
                 data.time_value === selectedTime;
-
+            // console.log(matchDifficulty, matchTime);
             return matchDifficulty && matchTime;
         });
 
@@ -67,15 +68,22 @@ fetch(getPath('datas/data.json'))
     // all recipes
     displayAllRecipeCards(recipeData);
 
-    searchInput.addEventListener('input', e => {
-        const value = e.target.value.toLowerCase();
-        const filteredRecipes = recipeData.filter(card => {
-            return card.ingredients.some(ingredient =>
+    // search bar
+    searchInputButton.addEventListener('click', () => {
+        const values = searchInput.value
+        .toLowerCase()
+        .split(',')
+        .map(item => item.trim());
+
+    const filteredRecipes = recipeData.filter(card => {
+        return card.ingredients.some(ingredient =>
+            values.some(value =>
                 ingredient.toLowerCase().includes(value)
-            );
-        });
-        displayAllRecipeCards(filteredRecipes);
-        console.log(value);
+            )
+        );
+    });
+    displayAllRecipeCards(filteredRecipes);
+    
     })
 });
 

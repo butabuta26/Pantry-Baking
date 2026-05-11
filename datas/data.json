@@ -54,7 +54,7 @@
     "name":"[Recipe Name]",
     "time":"2+ hours",
     "time_value": "2+hours",
-    "ingredients" : ["egg", "milk", "flour", "sugar", "butter", "yeast", "food_dye"],
+    "ingredients" : ["egg", "milk", "flour", "sugar", "butter", "yeast", "food dye"],
     "difficulty":"Advanced",
     "featured": true
   },
@@ -64,7 +64,7 @@
     "name":"[Recipe Name]",
     "time": "30–60 min",
     "time_value": "30-60min",
-    "ingredients": ["egg", "milk", "flour", "sugar", "oil", "cinnamon_powder"],
+    "ingredients": ["egg", "milk", "flour", "sugar", "oil", "cinnamon powder"],
     "difficulty":"Medium",
     "featured": true
   },
