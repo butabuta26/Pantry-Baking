@@ -84,6 +84,23 @@ fetch(getPath('datas/data.json'))
     });
     displayAllRecipeCards(filteredRecipes);
     
-    })
+    });
+
+    searchInput.addEventListener('input', () => {
+        const values = searchInput.value
+        .toLowerCase()
+        .split(',')
+        .map(item => item.trim());
+
+    const filteredRecipes = recipeData.filter(card => {
+        return card.ingredients.some(ingredient =>
+            values.some(value =>
+                ingredient.toLowerCase().includes(value)
+            )
+        );
+    });
+    displayAllRecipeCards(filteredRecipes);
+    
+    });
 });
 

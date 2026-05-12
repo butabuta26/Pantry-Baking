@@ -141,11 +141,24 @@ header {
    
 .recipe-img{
     height:190px;
-    background-color: var(--sub-cream);
     border-radius:12px;
     margin-bottom:18px;
+
+    background-size: cover;
+    background-position: center;
 }
-   
+
+.single-recipe-img {
+    width: 40%;
+    height: auto;
+    border-radius: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 25px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
 .recipe-card h4{
     color: var(--dark-brown);
 }

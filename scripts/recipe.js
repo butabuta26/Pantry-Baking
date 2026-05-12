@@ -1,4 +1,5 @@
 import { getPath, loadNavbar, loadFooter } from './script.js';
+import { getMealById } from './api.js';
 
 loadNavbar();
 loadFooter();
@@ -9,33 +10,28 @@ const singleRecipeContainer = document.querySelector('#single-recipe-container')
 if (singleRecipeContainer) {
     const params = new URLSearchParams(window.location.search);
     const recipeId = params.get('id');
-    fetch(getPath('datas/data.json'))
-        .then(response => response.json())
-        .then(recipes => {
-            const recipe = recipes.find(r => r.id == recipeId);
-            if (!recipe) {
-                singleRecipeContainer.innerHTML = `
-                    <h2>Recipe not found</h2>
-                `;
-                return;
-            }
+    getMealById(recipeId)
+    .then(recipe => {
+        if (!recipe) {
             singleRecipeContainer.innerHTML = `
-            
-                <h1>${recipe.name}</h1>
-                <div class="recipe-img"></div>
-                <p>${recipe.description}</p>
-                <h3>Ingredients</h3>
-                <ul>
-                    ${recipe.ingredients
-                        .map(ingredient => `<li>${ingredient}</li>`)
-                        .join('')
-                    }
-                </ul>
-                <h3>Instructions</h3>
-                <p>${recipe.instructions}</p>
-
+                <h2>Recipe not found</h2>
             `;
-        })
+            return;
+        }
 
-        .catch(error => console.log(error));
+        singleRecipeContainer.innerHTML = `
+            <h1>${recipe.name}</h1>
+            <img class="single-recipe-img" src='${recipe.image}'> <br>
+            <h3>Info</h3>
+            <p>
+                Category: ${recipe.category || 'Unknown'}
+            </p>
+            <p>
+                Cuisine: ${recipe.area || 'Unknown'}
+            </p>
+            <h3>Instructions</h3>
+            <p>${recipe.instructions}</p>
+        `;
+    })
+    .catch(error => console.log(error));
 }

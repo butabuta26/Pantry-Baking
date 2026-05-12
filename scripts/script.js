@@ -1,3 +1,5 @@
+import { getRandomMeal, getMealsByCategory, getRandomDessertFeed } from './api.js';
+
 // fix paths
 export function getPath(path) {
     const isInPages = window.location.pathname.includes('/pages/');
@@ -36,14 +38,14 @@ export function createRecipeCard(recipe) {
   return `
       <a href="${recipePath}" class="text-decoration-none text-dark">
           <div class="recipe-card">
-              <div class="recipe-img"></div>
+              <div class="recipe-img" style="background-image: url('${recipe.image}')"></div>
               <h4>${recipe.name}</h4>
               <div class="d-flex gap-2 flex-wrap">
                   <span class="recipe-tag">
-                      ${recipe.time}
+                    ${recipe.time ? `<span class="recipe-tag">${recipe.time}</span>` : ''}
                   </span>
                   <span class="recipe-tag">
-                      ${recipe.difficulty}
+                    ${recipe.difficulty ? `<span class="recipe-tag">${recipe.difficulty}</span>` : ''}
                   </span>
               </div>
           </div>
@@ -55,9 +57,9 @@ function displayFeaturedRecipeCards(recipes){
     const homeContainer = document.querySelector('#home-container');
     if(homeContainer){
         homeContainer.innerHTML = '';
-        const featuredRecipes = recipes.filter(
-            recipe => recipe.featured
-        );
+
+        const featuredRecipes = recipes;
+
         featuredRecipes.forEach(recipe => {
             const card = document.createElement('div');
             card.className = 'col-md-6 col-lg-3';
@@ -80,11 +82,44 @@ export function displayAllRecipeCards(recipes){
     }
 }
 
-fetch(getPath('datas/data.json'))
-.then(response => response.json())
+// suffle recipes
+export function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+// fetch(getPath('datas/data.json'))
+// .then(response => response.json())
+// .then(recipes => {
+//     displayFeaturedRecipeCards(recipes);
+//     displayAllRecipeCards(recipes);
+    
+// })
+// .catch(error => console.log(error));
+
+
+// getRandomMeal()
+// .then(recipe => {
+
+//     displayFeaturedRecipeCards([recipe]);
+//     displayAllRecipeCards([recipe]);
+
+// })
+// .catch(error => console.log(error));
+
+// getRandomMeal().then(meal => {
+//     console.log(meal);
+// });
+
+getMealsByCategory('Dessert')
+.then(recipes => {
+
+    // displayFeaturedRecipeCards(recipes);
+    displayAllRecipeCards(recipes);
+
+});
+
+getRandomDessertFeed(8)
 .then(recipes => {
     displayFeaturedRecipeCards(recipes);
-    displayAllRecipeCards(recipes);
-    
-})
-.catch(error => console.log(error));
+    // displayAllRecipeCards(recipes);
+});
