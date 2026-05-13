@@ -10,6 +10,7 @@ function normalizeMeal(meal) {
         instructions: meal.strInstructions,
         category: meal.strCategory,
         area: meal.strArea,
+        ingredients: getIngredients(meal)
     };
 }
 
@@ -58,4 +59,22 @@ export async function getRandomDessertFeed(limit = 8) {
     return shuffled
         .slice(0, limit)
         .map(normalizeMealPreview);
+}
+
+function getIngredients(meal) {
+    const ingredients = [];
+
+    for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+
+        if (ingredient && ingredient.trim() !== '') {
+            ingredients.push({
+                name: ingredient,
+                measure: measure
+            });
+        }
+    }
+
+    return ingredients;
 }
