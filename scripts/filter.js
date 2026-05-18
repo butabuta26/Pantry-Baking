@@ -1,44 +1,115 @@
-import { getPath, displayAllRecipeCards } from './script.js';
+import { displayAllRecipeCards, getInstructionSteps, renderPagination } from './script.js';
+import { getMealById } from './api.js';
 
 const linkElementsDifficulty = document.querySelectorAll('.filter-diff-chip');
-const linkElementsTime = document.querySelectorAll('.filter-time-chip');
-
 const searchInput = document.querySelector('[data-search]');
-const searchInputButton = document.querySelector('[data-search-button]')
+const searchInputButton = document.querySelector('[data-search-button]');
 
 let selectedDifficulty = 'any';
-let selectedTime = 'any';
+let recipeData = [];
 
-fetch(getPath('datas/data.json'))
-.then(response => response.json())
-.then(recipeData => {
-    function applyFilters() {
-        const filtered = recipeData.filter(data => {
-            const matchDifficulty =
-                selectedDifficulty === 'any' ||
-                data.difficulty.toLowerCase() === selectedDifficulty;
+let currentPage = 1;
+let filteredRecipes = [];
 
-            const matchTime =
-                selectedTime === 'any' ||
-                data.time_value === selectedTime;
-            // console.log(matchDifficulty, matchTime);
-            return matchDifficulty && matchTime;
-        });
+// load singular recipes
+async function loadRecipes() {
+    const response = await fetch(
+        'https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert'
+    );
 
-        displayAllRecipeCards(filtered);
-    }
-// difficulty chips
-    linkElementsDifficulty.forEach((links) => {
-        links.addEventListener('click', (element) => {
+    const data = await response.json();
+    const meals = data.meals;
 
-            const difficulty = element.target.dataset.value;
+    console.log("Basic meals:", meals);
 
-            if (links.classList.contains('active')) {
-                links.classList.remove('active');
+    const fullRecipes = await Promise.all(
+        meals.map(meal => getMealById(meal.idMeal))
+    );
+
+    console.log("Full recipes loaded:", fullRecipes);
+
+    return fullRecipes;
+}
+
+// difficulty logic
+function getDifficulty(instructions) {
+    const steps = getInstructionSteps(instructions);
+    const count = steps.length;
+
+    if (count <= 4) return 'easy';
+    if (count <= 8) return 'medium';
+    return 'advanced';
+}
+
+// divide ingredients inputed into the search bar
+function getSearchValues() {
+    return searchInput.value
+        .toLowerCase()
+        .split(',')
+        .map(item => item.trim())
+        .filter(item => item.length > 0);
+}
+
+// filter main logic
+function applyFilters() {
+    const values = getSearchValues();
+
+    console.log("=== APPLY FILTERS ===");
+    console.log("Selected difficulty:", selectedDifficulty);
+    console.log("Search values:", values);
+
+    const filtered = recipeData.filter(data => {
+        const difficulty = getDifficulty(data.instructions);
+
+        const matchDifficulty =
+            selectedDifficulty === 'any' ||
+            difficulty === selectedDifficulty;
+
+        const matchSearch =
+            values.length === 0 ||
+            data.ingredients.some(ingredient =>
+                values.some(value =>
+                    ingredient.name.toLowerCase().includes(value)
+                )
+            );
+
+        return matchDifficulty && matchSearch;
+    });
+
+    console.log("Filtered results:", filtered.length);
+
+    filteredRecipes = filtered;
+    currentPage = 1;
+
+    updateUI();
+}
+
+
+function updateUI() {
+    displayAllRecipeCards(filteredRecipes, currentPage);
+
+    renderPagination(
+        filteredRecipes,
+        currentPage,
+        (newPage) => {
+            currentPage = newPage;
+            updateUI();
+        }
+    );
+}
+
+// filter chip logics
+function setupFilters() {
+    linkElementsDifficulty.forEach((chip) => {
+        chip.addEventListener('click', (event) => {
+            const difficulty = event.target.dataset.value;
+
+            if (chip.classList.contains('active')) {
+                chip.classList.remove('active');
                 selectedDifficulty = 'any';
             } else {
-                linkElementsDifficulty.forEach(chip => chip.classList.remove('active'));
-                links.classList.add('active');
+                linkElementsDifficulty.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
                 selectedDifficulty = difficulty;
             }
 
@@ -46,61 +117,18 @@ fetch(getPath('datas/data.json'))
         });
     });
 
-    // time chips
-    linkElementsTime.forEach((links) => {
-        links.addEventListener('click', (element) => {
+    searchInputButton.addEventListener('click', applyFilters);
+    searchInput.addEventListener('input', applyFilters);
+}
 
-            const time = element.target.dataset.value;
+// initialization
+loadRecipes().then(data => {
+    recipeData = data;
 
-            if (links.classList.contains('active')) {
-                links.classList.remove('active');
-                selectedTime = 'any';
-            } else {
-                linkElementsTime.forEach(chip => chip.classList.remove('active'));
-                links.classList.add('active');
-                selectedTime = time;
-            }
+    console.log("Recipes ready:", recipeData);
 
-            applyFilters();
-        });
-    });
+    filteredRecipes = recipeData;
+    updateUI();
 
-    // all recipes
-    displayAllRecipeCards(recipeData);
-
-    // search bar
-    searchInputButton.addEventListener('click', () => {
-        const values = searchInput.value
-        .toLowerCase()
-        .split(',')
-        .map(item => item.trim());
-
-    const filteredRecipes = recipeData.filter(card => {
-        return card.ingredients.some(ingredient =>
-            values.some(value =>
-                ingredient.toLowerCase().includes(value)
-            )
-        );
-    });
-    displayAllRecipeCards(filteredRecipes);
-    
-    });
-
-    searchInput.addEventListener('input', () => {
-        const values = searchInput.value
-        .toLowerCase()
-        .split(',')
-        .map(item => item.trim());
-
-    const filteredRecipes = recipeData.filter(card => {
-        return card.ingredients.some(ingredient =>
-            values.some(value =>
-                ingredient.toLowerCase().includes(value)
-            )
-        );
-    });
-    displayAllRecipeCards(filteredRecipes);
-    
-    });
+    setupFilters();
 });
-

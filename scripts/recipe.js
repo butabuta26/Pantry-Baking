@@ -1,17 +1,17 @@
-import { getPath, loadNavbar, loadFooter } from './script.js';
+import { loadNavbar, loadFooter, getInstructionSteps } from './script.js';
 import { getMealById } from './api.js';
 
 loadNavbar();
 loadFooter();
 
 function formatInstructions(instructions) {
-    return instructions
-        .split('. ') // split into sentences
-        .filter(step => step.trim() !== '')
+    const steps = getInstructionSteps(instructions);
+
+    return steps
         .map((step, index) => `
             <li>
                 <span class="step-number">${index + 1}</span>
-                ${step.trim()}.
+                ${step}.
             </li>
         `)
         .join('');

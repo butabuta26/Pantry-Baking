@@ -11,6 +11,15 @@ export function getPath(path) {
     const isInPages = window.location.pathname.includes('/pages/');
     return isInPages ? `../${path}` : `./${path}`;
 }
+
+// split instructions into sentences
+export function getInstructionSteps(instructions) {
+    return instructions
+        .split('. ')
+        .map(step => step.trim())
+        .filter(step => step.length > 0);
+
+}
   
 // navbar
 export function loadNavbar() {
@@ -47,9 +56,6 @@ export function createRecipeCard(recipe) {
               <div class="recipe-img" style="background-image: url('${recipe.image}')"></div>
               <h4>${recipe.name}</h4>
               <div class="d-flex gap-2 flex-wrap">
-                  <span class="recipe-tag">
-                    ${recipe.time ? `<span class="recipe-tag">${recipe.time}</span>` : ''}
-                  </span>
                   <span class="recipe-tag">
                     ${recipe.difficulty ? `<span class="recipe-tag">${recipe.difficulty}</span>` : ''}
                   </span>
@@ -98,7 +104,7 @@ export function shuffleArray(array) {
 }
 
 // pagination logic
-function renderPagination(recipes) {
+export function renderPagination(recipes, currentPage, onPageChange) {
     const pagination = document.querySelector('#pagination');
     if (!pagination) return;
 
@@ -112,9 +118,7 @@ function renderPagination(recipes) {
     prev.innerHTML = `<button class="page-link">Previous</button>`;
     prev.onclick = () => {
         if (currentPage > 1) {
-            currentPage--;
-            displayAllRecipeCards(allRecipes, currentPage);
-            renderPagination(allRecipes);
+            onPageChange(currentPage - 1);
         }
     };
     pagination.appendChild(prev);
@@ -128,10 +132,7 @@ function renderPagination(recipes) {
         btn.textContent = i;
 
         btn.addEventListener('click', () => {
-            currentPage = i;
-            displayAllRecipeCards(allRecipes, currentPage);
-            renderPagination(allRecipes);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            onPageChange(i);
         });
 
         li.appendChild(btn);
@@ -144,23 +145,21 @@ function renderPagination(recipes) {
     next.innerHTML = `<button class="page-link">Next</button>`;
     next.onclick = () => {
         if (currentPage < pageCount) {
-            currentPage++;
-            displayAllRecipeCards(allRecipes, currentPage);
-            renderPagination(allRecipes);
+            onPageChange(currentPage + 1);
         }
     };
     pagination.appendChild(next);
 }
 
 
-getMealsByCategory('Dessert')
-.then(recipes => {
-    allRecipes = recipes;
-    currentPage = 1;
+// getMealsByCategory('Dessert')
+// .then(recipes => {
+//     allRecipes = recipes;
+//     currentPage = 1;
 
-    displayAllRecipeCards(allRecipes, currentPage);
-    renderPagination(allRecipes);
-});
+//     displayAllRecipeCards(allRecipes, currentPage);
+//     renderPagination(allRecipes);
+// });
 
 getRandomDessertFeed(8)
 .then(recipes => {
