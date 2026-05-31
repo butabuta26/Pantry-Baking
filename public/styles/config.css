@@ -1,0 +1,29 @@
+:root{
+    /* --main-background: #F4F5EF;
+    --extra-red: #7D2826;
+    --sub-green: #898861;
+    --main-green: #343723;
+    --backhround-green: #CDD1B7 */
+    /* --main-background: #fdfaf0;
+    --extra-plum: #472D49;
+    --sub-gold: #b89d70;
+    --main-gold: #815f00; */
+    /* --background-gold: #d3c397; */
+    /* --main-background: #ffffff; */
+    --main-background: #fffdfa;
+    --extra-brown: #C48E6C;
+    --sub-cream: #EED9C4;
+    --main-cream: #D5B599;
+    --dark-brown: #5C4D3F;
+}
+
+
+@keyframes spinCookie {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
