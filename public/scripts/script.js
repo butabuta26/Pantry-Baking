@@ -17,24 +17,21 @@ export function getInstructionSteps(instructions) {
 
 // creates recipe cards
 export function createRecipeCard(recipe) {
-  const recipePath = window.location.pathname.includes('/pages/')
-      ? `recipe.html?id=${recipe.id}`
-      : `pages/recipe.html?id=${recipe.id}`;
-
-  return `
-      <a href="${recipePath}" class="text-decoration-none text-dark">
-          <div class="recipe-card">
-              <div class="recipe-img" style="background-image: url('${recipe.image}')"></div>
-              <h4>${recipe.name}</h4>
-              <div class="d-flex gap-2 flex-wrap">
-                  <span class="recipe-tag">
-                    ${recipe.difficulty ? `<span class="recipe-tag">${recipe.difficulty}</span>` : ''}
-                  </span>
-              </div>
-          </div>
-      </a>
-  `;
-}
+    const recipePath = `/recipe/${recipe.id}`;
+    return `
+        <a href="${recipePath}" class="text-decoration-none text-dark">
+            <div class="recipe-card">
+                <div class="recipe-img" style="background-image: url('${recipe.image}')"></div>
+                <h4>${recipe.name}</h4>
+                <div class="d-flex gap-2 flex-wrap">
+                    <span class="recipe-tag">
+                      ${recipe.difficulty ? `<span class="recipe-tag">${recipe.difficulty}</span>` : ''}
+                    </span>
+                </div>
+            </div>
+        </a>
+    `;
+  }
   
 function displayFeaturedRecipeCards(recipes){
     const homeContainer = document.querySelector('#home-container');

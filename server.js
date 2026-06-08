@@ -22,7 +22,7 @@ app.get('/contact', (req, res) => {
     res.render('contact');
 });
 
-app.get('/recipe', (req, res) => {
+app.get('/recipe/:id', (req, res) => {
     res.render('recipe');
 });
 

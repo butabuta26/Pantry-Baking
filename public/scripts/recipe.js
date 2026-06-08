@@ -1,8 +1,5 @@
-import { loadNavbar, loadFooter, getInstructionSteps } from './script.js';
+import { getInstructionSteps } from './script.js';
 import { getMealById } from './api.js';
-
-loadNavbar();
-loadFooter();
 
 function formatInstructions(instructions) {
     const steps = getInstructionSteps(instructions);
@@ -21,8 +18,7 @@ function formatInstructions(instructions) {
 const singleRecipeContainer = document.querySelector('#single-recipe-container');
 
 if (singleRecipeContainer) {
-    const params = new URLSearchParams(window.location.search);
-    const recipeId = params.get('id');
+    const recipeId = window.location.pathname.split('/').pop();
     getMealById(recipeId)
     .then(recipe => {
         if (!recipe) {
