@@ -7,12 +7,19 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
-const methodOverride = require("method-override")
+const methodOverride = require("method-override");
+
+const path = require("path");
+const mongoose = require("mongoose");
 
 const initializePassport = require("./passport-config");
 const recipeRoutes = require("./routes/recipe.routes");
 
 const app = express();
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connection successful"))
+  .catch(err => console.error(err));
 
 const users = [];
 

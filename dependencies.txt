@@ -6,3 +6,6 @@ express-session
 method-override
 passport 
 passport-local
+path
+mongodb
+mongoose
