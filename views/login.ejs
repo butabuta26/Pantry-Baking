@@ -20,14 +20,15 @@
                 <i class="bi bi-cup-hot-fill"></i>
             </div>   
 
+            <h1>Welcome back</h1>
+            <p>Sign in to access your saved recipes</p>   
+
             <% if (messages.error && messages.error.length > 0) { %>
                 <div class="alert alert-danger">
                     <%= messages.error[0] %>
                 </div>
             <% } %>
-
-            <h1>Welcome back</h1>
-            <p>Sign in to access your saved recipes</p>   
+            
             <form action="/login" method="POST">   
                 <div class="mb-3">
                     <label>Email address</label>

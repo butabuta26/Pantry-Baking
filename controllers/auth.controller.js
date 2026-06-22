@@ -4,7 +4,8 @@ function login(req, res) {
 }
 
 function register(req, res) {
-    res.render("register");
+    const messages = req.flash();
+    res.render("register", { messages });
 }
 
 module.exports = {
