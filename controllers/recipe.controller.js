@@ -19,25 +19,10 @@ function contact(req, res) {
 }
 
 
-function login(req, res) {
-    const messages = req.flash();
-
-    console.log(messages);
-
-    res.render("login", { messages });
-}
-
-
-function register(req, res) {
-    res.render('register');
-}
-
 module.exports = {
     home,
     recipes,
     recipe,
     about,
-    contact,
-    login,
-    register
+    contact
 };
