@@ -1,10 +1,5 @@
-import { getRandomMeal, getMealsByCategory, getRandomDessertFeed } from './api.js';
-
 // pagination
 const ITEMS_PER_PAGE = 12;
-
-let allRecipes = [];
-let currentPage = 1;
 
 // split instructions into sentences
 export function getInstructionSteps(instructions) {
@@ -17,7 +12,7 @@ export function getInstructionSteps(instructions) {
 
 // creates recipe cards
 export function createRecipeCard(recipe) {
-    const recipePath = `/recipe/${recipe.id}`;
+    const recipePath = `/recipe/${recipe.mealDbId}`;
     return `
         <a href="${recipePath}" class="text-decoration-none text-dark">
             <div class="recipe-card">
@@ -64,11 +59,6 @@ export function displayAllRecipeCards(recipes, page = 1){
         card.innerHTML = createRecipeCard(recipe);
         allRecipesContainer.appendChild(card);
     });
-}
-
-// suffle recipes
-export function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
 }
 
 // pagination logic
@@ -120,16 +110,15 @@ export function renderPagination(recipes, currentPage, onPageChange) {
 }
 
 
-// getMealsByCategory('Dessert')
-// .then(recipes => {
-//     allRecipes = recipes;
-//     currentPage = 1;
+async function loadFeaturedRecipes() {
+    const response = await fetch('/api/recipes');
+    const data = await response.json();
 
-//     displayAllRecipeCards(allRecipes, currentPage);
-//     renderPagination(allRecipes);
-// });
+    const shuffled = data.sort(() => Math.random() - 0.5);
 
-getRandomDessertFeed(8)
-.then(recipes => {
+    return shuffled.slice(0, 8);
+}
+
+loadFeaturedRecipes().then(recipes => {
     displayFeaturedRecipeCards(recipes);
 });

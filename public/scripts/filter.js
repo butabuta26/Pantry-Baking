@@ -1,5 +1,4 @@
 import { displayAllRecipeCards, getInstructionSteps, renderPagination } from './script.js';
-import { getMealById } from './api.js';
 
 const linkElementsDifficulty = document.querySelectorAll('.filter-diff-chip');
 const searchInput = document.querySelector('[data-search]');
@@ -13,22 +12,10 @@ let filteredRecipes = [];
 
 // load singular recipes
 async function loadRecipes() {
-    const response = await fetch(
-        'https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert'
-    );
-
+    const response = await fetch('/api/recipes');
     const data = await response.json();
-    const meals = data.meals;
 
-    console.log("Basic meals:", meals);
-
-    const fullRecipes = await Promise.all(
-        meals.map(meal => getMealById(meal.idMeal))
-    );
-
-    console.log("Full recipes loaded:", fullRecipes);
-
-    return fullRecipes;
+    return data;
 }
 
 // difficulty logic

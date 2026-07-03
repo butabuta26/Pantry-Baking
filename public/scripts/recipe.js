@@ -1,5 +1,10 @@
 import { getInstructionSteps } from './script.js';
-import { getMealById } from './api.js';
+// import { getMealById } from './api.js';
+
+async function getRecipeById(id) {
+    const res = await fetch(`/api/recipes/${id}`);
+    return await res.json();
+}
 
 function formatInstructions(instructions) {
     const steps = getInstructionSteps(instructions);
@@ -19,9 +24,10 @@ const singleRecipeContainer = document.querySelector('#single-recipe-container')
 
 if (singleRecipeContainer) {
     const recipeId = window.location.pathname.split('/').pop();
-    getMealById(recipeId)
+    getRecipeById(recipeId)
+    getRecipeById(recipeId)
     .then(recipe => {
-        if (!recipe) {
+        if (!recipe || recipe.error) {
             singleRecipeContainer.innerHTML = `
                 <h2>Recipe not found</h2>
             `;

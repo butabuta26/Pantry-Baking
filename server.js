@@ -56,6 +56,7 @@ app.use(methodOverride("_method"))
 app.use("/", recipeRoutes);
 app.use("/", authRoutes);
 app.use("/account", accountRoutes);
+app.use('/api', require('./routes/api.routes'));
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
