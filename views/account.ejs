@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon-pie.png">
     <link rel="stylesheet" href="/styles/style.css">
 </head>
-<body>
+<body class="account-body">
     <header class="sticky-top">
         <%- include('partials/navbar') %>
     </header>
@@ -19,32 +19,41 @@
             <div class="profile-card">
                 <div class="row align-items-center g-4 w-100">
                     <div class="col-12 col-md-auto text-center">
-                        <img src="/images/default-avatar.png"
-                             class="profile-image"
-                             alt="Profile picture">
+                        <img class="profile-image"
+                        alt="Profile picture"
+                        src="<%= user.avatar %>">
                     </div>
             
                     <div class="col">
-                        <h1><%= user.name %></h1>
-                        <p class="mb-4">
-                            <%= user.email %>
-                        </p>
-            
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+                            <div>
+                                <h1 class="mb-1">
+                                    <%= user.name %>
+                                </h1>
+                    
+                                <p class="text-muted mb-4">
+                                    <%= user.email %>
+                                </p>
+                            </div>
+                            <a href="/account/edit" class="btn edit-profile-btn"> Edit Profile
+                            </a>
+                        </div>
                         <div class="profile-stats">
-                            <div class="stat">
-                                <h2>4</h2>
-                                <span>Liked Recipes</span>
+                            <div class="stat-card">                        
+                                <div class="stat-icon">
+                                    ❤️
+                                </div>                        
+                                <h2><%= user.likedRecipes.length %></h2>                        
+                                <p>Liked Recipes</p>                        
                             </div>
-            
-                            <div class="stat">
-                                <h2>4</h2>
-                                <span>Rated Recipes</span>
-                            </div>
-            
-                            <div class="stat">
-                                <h2>4.3 ★</h2>
-                                <span>Average Rating</span>
-                            </div>
+                        
+                            <div class="stat-card">                        
+                                <div class="stat-icon">
+                                    🍪
+                                </div>                        
+                                <h2>Pantry</h2>                        
+                                <p>Baker</p>                        
+                            </div>                        
                         </div>
                     </div>
                 </div>
@@ -65,22 +74,13 @@
         </div>
     </section>
 
-    <!-- Rated Recipes -->
-    <section class="rated-section py-5">
-        <div class="container">
-            <div class="section-heading">
-                <h2>⭐ Rated Recipes</h2>
-                <p>Recipes you've left a rating on.</p>
-            </div>
-
-            <div id="rated-container" class="row g-4">
-                <!-- Recipe cards will go here from js -->
-            </div>
-        </div>
-    </section>
-
     <%- include('partials/footer') %>
 
+    <script>
+        window.likedRecipes = <%- JSON.stringify(user.likedRecipes) %>;
+    </script>
+    
+    <script type="module" src="/scripts/account.js"></script>
     <script type="module" src="/scripts/recipe.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

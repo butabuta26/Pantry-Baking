@@ -8,7 +8,12 @@ const ingredientSchema = new mongoose.Schema({
 const recipeSchema = new mongoose.Schema({
     mealDbId: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
+    },
+    isUserRecipe: {
+        type: Boolean,
+        default: false
     },
     name: {
         type: String,
@@ -18,16 +23,16 @@ const recipeSchema = new mongoose.Schema({
     category: String,
     area: String,
     instructions: String,
-    ingredients: [ingredientSchema],
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        default: null
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    ingredients: [ingredientSchema]
+    // author: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //     default: null
+    // },
+    // createdAt: {
+    //     type: Date,
+    //     default: Date.now
+    // }
 });
 
 module.exports = mongoose.model("Recipe", recipeSchema);

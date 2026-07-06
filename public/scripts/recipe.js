@@ -25,7 +25,6 @@ const singleRecipeContainer = document.querySelector('#single-recipe-container')
 if (singleRecipeContainer) {
     const recipeId = window.location.pathname.split('/').pop();
     getRecipeById(recipeId)
-    getRecipeById(recipeId)
     .then(recipe => {
         if (!recipe || recipe.error) {
             singleRecipeContainer.innerHTML = `
@@ -40,6 +39,14 @@ if (singleRecipeContainer) {
         <div class="col-lg-5">
             <h1>${recipe.name}</h1>
             <img class="single-recipe-img" src="${recipe.image}" />
+            <div class="mt-3">
+            <button
+                id="like-button"
+                class="btn ${recipe.liked ? "btn-danger" : "btn-outline-danger"} w-100"
+                data-id="${recipe._id}">
+                ${recipe.liked ? "❤️ Liked" : "🤍 Like"}
+            </button>
+            </div>
         </div>
 
         <div class="col-lg-7">
@@ -68,7 +75,31 @@ if (singleRecipeContainer) {
             </div>
         </div>
     </div>
-`;
+    `;
+    
+        const likeButton = document.querySelector("#like-button");
+
+        likeButton.addEventListener("click", async () => {
+
+            const recipeId = likeButton.dataset.id;
+
+            const response = await fetch(`/recipe/${recipeId}/like`, {
+                method: "POST"
+            });
+
+            const result = await response.json();
+
+            if (result.liked) {
+                likeButton.textContent = "❤️ Liked";
+                likeButton.classList.remove("btn-outline-danger");
+                likeButton.classList.add("btn-danger");
+            } else {
+                likeButton.textContent = "🤍 Like";
+                likeButton.classList.remove("btn-danger");
+                likeButton.classList.add("btn-outline-danger");
+            }
+
+        });
     })
     .catch(error => console.log(error));
 }

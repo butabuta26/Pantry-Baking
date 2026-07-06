@@ -9,7 +9,15 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         trim: true
     },
-    password: String
+    avatar: {
+        type: String,
+        default: "/images/default-avatar.png"
+    },
+    password: String,
+    likedRecipes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Recipe"
+    }]
 });
 
 module.exports = mongoose.model("User", userSchema);

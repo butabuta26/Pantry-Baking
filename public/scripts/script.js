@@ -18,11 +18,6 @@ export function createRecipeCard(recipe) {
             <div class="recipe-card">
                 <div class="recipe-img" style="background-image: url('${recipe.image}')"></div>
                 <h4>${recipe.name}</h4>
-                <div class="d-flex gap-2 flex-wrap">
-                    <span class="recipe-tag">
-                      ${recipe.difficulty ? `<span class="recipe-tag">${recipe.difficulty}</span>` : ''}
-                    </span>
-                </div>
             </div>
         </a>
     `;
