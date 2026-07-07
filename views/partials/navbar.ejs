@@ -2,7 +2,7 @@
     <div class="container-fluid mx-4">
       <a class="navbar-brand" href="/">
         <h3>
-            <img src="../images/favicon-pie.png" alt="Logo" width="35" height="35" class="d-inline-block align-text-top">
+            <img src="/images/favicon-pie.png" alt="Logo" width="35" height="35" class="d-inline-block align-text-top">
             Pantry Baking
         </h3>
       </a>
@@ -23,17 +23,31 @@
             <li class="nav-item">
                 <a class="nav-link" href="/contact"><h6>Contact</h6></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/account"><h6>Account</h6></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register"><h6>Sign Up</h6></a>
-            </li>
-            <form action="/logout?_method=DELETE" method="POST">
+            <% if (user) { %>
               <li class="nav-item">
-                <button class="nav-link logout-button" type="submit"><h6>Log Out</h6></button>
-              </li>
-            </form>
+                  <a class="nav-link" href="/account">
+                      <h6>Account</h6>
+                  </a>
+              </li>          
+              <li class="nav-item">
+                  <form action="/logout?_method=DELETE" method="POST">
+                      <button class="nav-link logout-button" type="submit">
+                          <h6>Log Out</h6>
+                      </button>
+                  </form>
+              </li>          
+          <% } else { %>          
+              <li class="nav-item">
+                  <a class="nav-link" href="/login">
+                      <h6>Log In</h6>
+                  </a>
+              </li>          
+              <li class="nav-item">
+                  <a class="nav-link" href="/register">
+                      <h6>Sign Up</h6>
+                  </a>
+              </li>          
+          <% } %>
         </ul>
       </div>
     </div>
